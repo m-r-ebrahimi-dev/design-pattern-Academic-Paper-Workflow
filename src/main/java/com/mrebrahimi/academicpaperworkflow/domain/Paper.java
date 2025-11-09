@@ -1,5 +1,6 @@
 package com.mrebrahimi.academicpaperworkflow.domain;
 
+import com.mrebrahimi.academicpaperworkflow.state.PaperState;
 import jakarta.persistence.*;
 
 @Entity
@@ -25,8 +26,24 @@ public class Paper {
     @Column(name = "PAPER_STATUS", nullable = false)
     private PaperStatus status = PaperStatus.DRAFT;
 
+    @Transient
+    private PaperState currentState;
+
+    public void submit(User user) {
+        this.currentState.submit(this, user);
+    }
+
+    public void changeState(PaperState newState) {
+        this.currentState = newState;
+        this.status = newState.getStatus();
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public PaperStatus getStatus() {
+        return status;
     }
 
     public void setId(Long id) {
@@ -57,11 +74,15 @@ public class Paper {
         this.authorId = authorId;
     }
 
-    public PaperStatus getStatus() {
-        return status;
+    public PaperState getCurrentState() {
+        return currentState;
     }
 
     public void setStatus(PaperStatus status) {
         this.status = status;
+    }
+
+    public void setCurrentState(PaperState currentState) {
+        this.currentState = currentState;
     }
 }
