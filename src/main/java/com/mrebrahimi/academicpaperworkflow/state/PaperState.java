@@ -16,5 +16,7 @@ public interface PaperState {
 
     void requestRevision(Paper paper, User editor);
 
+    void publish(Paper paper, User editor);
+
     PaperStatus getStatus();
 }

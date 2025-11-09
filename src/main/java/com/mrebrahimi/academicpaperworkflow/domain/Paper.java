@@ -38,6 +38,10 @@ public class Paper {
         this.status = newState.getStatus();
     }
 
+    public void publish(User editor) {
+        this.currentState.publish(this, editor);
+    }
+
     public Long getId() {
         return id;
     }

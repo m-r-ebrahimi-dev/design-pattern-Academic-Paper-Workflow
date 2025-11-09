@@ -27,6 +27,11 @@ public abstract class BasePaperState implements PaperState {
     }
 
     @Override
+    public void publish(Paper paper, User editor) {
+        throw new InvalidActionForStateException("publish", getStatus());
+    }
+
+    @Override
     public void requestRevision(Paper paper, User editor) {
         throw new InvalidActionForStateException("requestRevision", getStatus());
     }
