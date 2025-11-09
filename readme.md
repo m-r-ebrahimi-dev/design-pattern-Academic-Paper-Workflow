@@ -24,14 +24,14 @@ and scalable way by replacing large conditional blocks with polymorphic state ob
 
 ```mermaid
 graph TD
-    A[Draft] -->|submit()| B(Submitted);
-    B -->|assignToReviewer()| C(Under Review);
-    B -->|reject()| G(Rejected);
-    C -->|requestRevision()| D(Needs Revision);
-    C -->|accept()| E(Accepted);
-    C -->|reject()| G;
-    D -->|submit()| C;
-    E -->|publish()| F(Published);
+    A[Draft] -->|submit| B(Submitted);
+    B -->|assignToReviewer| C(Under Review);
+    B -->|reject| G(Rejected);
+    C -->|requestRevision| D(Needs Revision);
+    C -->|accept| E(Accepted);
+    C -->|reject| G;
+    D -->|submit| C;
+    E -->|publish| F(Published);
 
     subgraph Final States
         G; F;
@@ -70,7 +70,6 @@ Once the database is running, start the Spring Boot application using Maven:
 ```bash
 mvn spring-boot:run
 ```
-
 The API will be available at `http://localhost:8080`.
 
 ## Workflow Demonstration (API Usage)
@@ -106,7 +105,6 @@ The author (ID `1`) creates a new paper. Its initial state is `DRAFT`.
 curl -X POST http://localhost:8080/api/papers -H "Content-Type: application/json" -d \
 '{"title": "The State of Modern Software", "content": "...", "authorId": 1}' | jq
 ```
-
 Response will show `status: "DRAFT"`. Let's assume the paper ID is `1`.
 
 Now, the author submits the paper for review.
@@ -116,7 +114,6 @@ Now, the author submits the paper for review.
 curl -X POST http://localhost:8080/api/papers/1/submit -H "Content-Type: application/json" -d \
 '{"userId": 1}'
 ```
-
 Checking the paper's status now will show `SUBMITTED`.
 `curl http://localhost:8080/api/papers/1 | jq`
 
@@ -129,7 +126,6 @@ The editor (ID `2`) assigns the paper to a reviewer (ID `3`).
 curl -X POST http://localhost:8080/api/papers/1/assign -H "Content-Type: application/json" -d \
 '{"editorId": 2, "reviewerId": 3}'
 ```
-
 The paper's state is now `UNDER_REVIEW`.
 
 ### 4. Editor's Decision
@@ -148,7 +144,6 @@ curl -X POST http://localhost:8080/api/papers/1/accept -H "Content-Type: applica
 curl -X POST http://localhost:8080/api/papers/1/publish -H "Content-Type: application/json" -d \
 '{"userId": 2}'
 ```
-
 The paper is now in its final `PUBLISHED` state.
 
 #### Path B: Revision Loop
@@ -164,7 +159,6 @@ curl -X POST http://localhost:8080/api/papers/1/revise -H "Content-Type: applica
 curl -X POST http://localhost:8080/api/papers/1/submit -H "Content-Type: application/json" -d \
 '{"userId": 1}'
 ```
-
 The paper is now back in the `UNDER_REVIEW` state, and the cycle can continue.
 
 ### 5. Example of an Invalid Action
@@ -179,7 +173,6 @@ curl -i -X POST http://localhost:8080/api/papers/1/accept -H "Content-Type: appl
 ```
 
 The server will respond with a `403 Forbidden` status and a clear error message:
-
 ```json
 {
   "error": "Only editors can accept papers."
@@ -191,7 +184,6 @@ This demonstrates the power of encapsulating state-specific rules within dedicat
 ### Shutting Down
 
 To stop and remove the database container, run:
-
 ```bash
 docker-compose down
 ```
