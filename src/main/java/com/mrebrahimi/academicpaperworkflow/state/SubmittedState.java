@@ -19,7 +19,6 @@ public class SubmittedState extends BasePaperState {
         paper.changeState(PaperStateFactory.getState(PaperStatus.UNDER_REVIEW));
     }
 
-    // You can also implement reject here...
     @Override
     public void reject(Paper paper, User editor) {
         if (editor.getRole() != Role.EDITOR) {
