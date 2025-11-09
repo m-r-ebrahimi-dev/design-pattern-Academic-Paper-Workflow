@@ -1,6 +1,7 @@
 package com.mrebrahimi.academicpaperworkflow.state.common;
 
 import com.mrebrahimi.academicpaperworkflow.domain.Paper;
+import com.mrebrahimi.academicpaperworkflow.domain.User;
 import com.mrebrahimi.academicpaperworkflow.exception.InvalidActionForStateException;
 import com.mrebrahimi.academicpaperworkflow.state.PaperState;
 

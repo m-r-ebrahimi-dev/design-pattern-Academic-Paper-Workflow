@@ -2,6 +2,7 @@ package com.mrebrahimi.academicpaperworkflow.state;
 
 import com.mrebrahimi.academicpaperworkflow.domain.Paper;
 import com.mrebrahimi.academicpaperworkflow.domain.PaperStatus;
+import com.mrebrahimi.academicpaperworkflow.domain.User;
 import com.mrebrahimi.academicpaperworkflow.exception.UnauthorizedActionException;
 import com.mrebrahimi.academicpaperworkflow.state.common.BasePaperState;
 import org.springframework.stereotype.Component;

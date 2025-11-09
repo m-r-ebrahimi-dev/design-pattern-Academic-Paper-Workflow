@@ -3,6 +3,7 @@ package com.mrebrahimi.academicpaperworkflow.state;
 
 import com.mrebrahimi.academicpaperworkflow.domain.Paper;
 import com.mrebrahimi.academicpaperworkflow.domain.PaperStatus;
+import com.mrebrahimi.academicpaperworkflow.domain.User;
 
 public interface PaperState {
     void submit(Paper paper, User user);
